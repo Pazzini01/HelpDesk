@@ -9,7 +9,7 @@ Console.WriteLine("Bem-vindo ao HelpDesk!\n");
 //while do menu
 List<Chamado> chamados = new List<Chamado>();
     int opcao = 0;
-while (opcao != 4)
+while (opcao != 5)
 {
     ExibirMenu();
 
@@ -32,6 +32,10 @@ while (opcao != 4)
                 break;
 
             case 4:
+                AdministrarChamado();
+                break;
+
+            case 5:
                 Sair();
                 break;
 
@@ -46,7 +50,6 @@ while (opcao != 4)
     }
 
 }
-//while do menu FINAL....
 
 
 //METODOS....
@@ -55,7 +58,8 @@ void ExibirMenu()
     Console.WriteLine("1 - Abrir chamado");
     Console.WriteLine("2 - Listar chamados");
     Console.WriteLine("3 - Consultar chamado");
-    Console.WriteLine("4 - Sair");
+    Console.WriteLine("4 - Administrar chamado");
+    Console.WriteLine("5 - Sair");
 }
 
 void AbrirChamado()
@@ -101,14 +105,96 @@ void ExibirDadosChamado(int protocolo, string chamado)
     Console.WriteLine($"Chamado: {chamado}\nProtocolo: {protocolo}");
 }
 
+int id = -1;
 void ConsultarChamado()
- {
-   //não decidi ainda oq essa função vai fazer
- }
+{
+    Console.WriteLine("Selecione o número do chamado");
+    string consulta = Console.ReadLine();
+    if (int.TryParse(consulta, out id))
+    {
+        int indice = id - 1;
 
+        if (indice < 0 || indice >= chamados.Count)
+        {
+            Console.WriteLine("Chamado não encontrado!");
+        }
+        else
+        {
+            Chamado chamado = chamados[indice];
+            Console.WriteLine(chamado.Titulo);
+            Console.WriteLine(chamado.Descricao);
+            Console.WriteLine(chamado.Condicao);
+        }
+    }
+    else
+    {
+        Console.WriteLine("Digite um número válido!");
+    }
+    
+}
+
+void AdministrarChamado()
+{
+    Console.WriteLine("Selecione o número do chamado");
+    string consulta = Console.ReadLine();
+    if (int.TryParse(consulta, out id))
+    {
+        int indice = id - 1;
+
+        if (indice < 0 || indice >= chamados.Count)
+        {
+            Console.WriteLine("Chamado não encontrado!");
+        }
+        else
+        {
+            // Recupera o chamado escolhido pelo usuário
+            Chamado chamado = chamados[indice];
+
+            // Exibe os dados atuais
+            Console.WriteLine($"Título: {chamado.Titulo}");
+            Console.WriteLine($"Descrição: {chamado.Descricao}");
+            Console.WriteLine($"Condição atual: {chamado.Condicao}");
+
+            // Apresenta as opções de condição
+            Console.WriteLine("\nSelecione a nova condição:");
+            Console.WriteLine("1 - Aberto");
+            Console.WriteLine("2 - Em andamento");
+            Console.WriteLine("3 - Concluído");
+
+            // Lê a escolha do usuário
+            string novaOpcao = Console.ReadLine();
+
+            // Converte o texto para número
+            if (int.TryParse(novaOpcao, out int condicao))
+            {
+                switch (condicao)
+                {
+                    case 1:
+                        chamado.AlterarCondicao("Aberto");
+                        break;
+
+                    case 2:
+                        chamado.AlterarCondicao("Em andamento");
+                        break;
+
+                    case 3:
+                        chamado.AlterarCondicao("Concluído");
+                        break;
+
+                    default:
+                        Console.WriteLine("Condição inválida!");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Digite um número válido!");
+            }
+        }
+    }
+
+}
 void Sair()
- {
-  Console.WriteLine("Fechando aplicação...");
- }
-
-//FINAL METODOS...
+{
+    Console.WriteLine("Fechando aplicação...");
+}

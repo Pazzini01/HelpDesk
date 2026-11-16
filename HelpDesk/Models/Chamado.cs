@@ -17,5 +17,13 @@ namespace HelpDesk.Models
         {
             Descricao = novaDescricao;
         }
+
+        public string Condicao { get; private set; } = "Aberto";
+
+        public void AlterarCondicao(string novaCondicao)
+        {
+            Condicao = novaCondicao;
+        
+        }
     }
 }
