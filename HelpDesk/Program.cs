@@ -68,9 +68,7 @@ void AbrirChamado()
     string titulo = Console.ReadLine();
     Console.WriteLine("Digite a descrição do chamado");
     string descricao = Console.ReadLine();
-    Chamado chamado = new Chamado();
-    chamado.AlterarTitulo(titulo);
-    chamado.AlterarDescricao(descricao);
+    Chamado chamado = new Chamado(titulo, descricao);
     chamados.Add(chamado);
     Console.WriteLine("Chamado criado com sucesso!");
 }
@@ -121,9 +119,9 @@ void ConsultarChamado()
         else
         {
             Chamado chamado = chamados[indice];
-            Console.WriteLine(chamado.Titulo);
-            Console.WriteLine(chamado.Descricao);
-            Console.WriteLine(chamado.Condicao);
+            Console.WriteLine($"Titulo:\n{chamado.Titulo}");
+            Console.WriteLine($"Descrição:\n{chamado.Descricao}");
+            Console.WriteLine($"Status:\n{chamado.Condicao}");
         }
     }
     else
@@ -133,10 +131,12 @@ void ConsultarChamado()
     
 }
 
+
 void AdministrarChamado()
 {
     Console.WriteLine("Selecione o número do chamado");
     string consulta = Console.ReadLine();
+
     if (int.TryParse(consulta, out id))
     {
         int indice = id - 1;
@@ -147,53 +147,48 @@ void AdministrarChamado()
         }
         else
         {
-            // Recupera o chamado escolhido pelo usuário
             Chamado chamado = chamados[indice];
 
-            // Exibe os dados atuais
             Console.WriteLine($"Título: {chamado.Titulo}");
             Console.WriteLine($"Descrição: {chamado.Descricao}");
             Console.WriteLine($"Condição atual: {chamado.Condicao}");
 
-            // Apresenta as opções de condição
             Console.WriteLine("\nSelecione a nova condição:");
             Console.WriteLine("1 - Aberto");
             Console.WriteLine("2 - Em andamento");
             Console.WriteLine("3 - Concluído");
 
-            // Lê a escolha do usuário
             string novaOpcao = Console.ReadLine();
 
-            // Converte o texto para número
-            if (int.TryParse(novaOpcao, out int condicao))
+            switch (novaOpcao)
             {
-                switch (condicao)
-                {
-                    case 1:
-                        chamado.AlterarCondicao("Aberto");
-                        break;
+                case "1":
+                    chamado.AlterarCondicao("Aberto");
+                    Console.WriteLine("Condição atualizada com sucesso!");
+                    break;
 
-                    case 2:
-                        chamado.AlterarCondicao("Em andamento");
-                        break;
+                case "2":
+                    chamado.AlterarCondicao("Em andamento");
+                    Console.WriteLine("Condição atualizada com sucesso!");
+                    break;
 
-                    case 3:
-                        chamado.AlterarCondicao("Concluído");
-                        break;
+                case "3":
+                    chamado.AlterarCondicao("Concluído");
+                    Console.WriteLine("Condição atualizada com sucesso!");
+                    break;
 
-                    default:
-                        Console.WriteLine("Condição inválida!");
-                        break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Digite um número válido!");
+                default:
+                    Console.WriteLine("Condição inválida!");
+                    break;
             }
         }
     }
-
+    else
+    {
+        Console.WriteLine("Digite um número válido!");
+    }
 }
+
 void Sair()
 {
     Console.WriteLine("Fechando aplicação...");
