@@ -1,4 +1,5 @@
 ﻿using HelpDesk.Models;
+using Microsoft.Win32;
 
 Console.WriteLine("================================");
 Console.WriteLine("    CENTRAL DE ATENDIMENTO");
@@ -129,7 +130,14 @@ void ConsultarChamado()
             Chamado chamado = chamados[indice];
             Console.WriteLine($"Titulo:\n{chamado.Titulo}");
             Console.WriteLine($"Descrição:\n{chamado.Descricao}");
-            Console.WriteLine($"Status:\n{chamado.Condicao}");
+            Console.WriteLine($"Status:\n{chamado.Condicao}\n");
+            Console.WriteLine("Histórico:\n");
+            foreach (Historico registro in chamado.Historico)
+            {
+
+                Console.WriteLine($"{registro.DataHora.ToString("dd/MM/yyyy HH:mm")} - {registro.Descricao}");
+            }
+           
         }
     }
     else
