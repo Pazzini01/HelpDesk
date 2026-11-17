@@ -68,9 +68,17 @@ void AbrirChamado()
     string titulo = Console.ReadLine();
     Console.WriteLine("Digite a descrição do chamado");
     string descricao = Console.ReadLine();
-    Chamado chamado = new Chamado(titulo, descricao);
-    chamados.Add(chamado);
-    Console.WriteLine("Chamado criado com sucesso!");
+    try
+    {
+        Chamado chamado = new Chamado(titulo, descricao);
+        chamados.Add(chamado);
+        Console.WriteLine("Chamado criado com sucesso!");
+    }
+
+    catch (ArgumentException ex)
+    {
+      Console.WriteLine("Falha na criação do chamado:" + ex.Message);
+    }
 }
 
 void ListarChamado()
