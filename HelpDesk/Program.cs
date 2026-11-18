@@ -67,18 +67,26 @@ void AbrirChamado()
 {
     Console.WriteLine("Digite o título do chamado");
     string titulo = Console.ReadLine();
+
     Console.WriteLine("Digite a descrição do chamado");
     string descricao = Console.ReadLine();
+
+    Console.WriteLine("Digite a categoria do chamado");
+    string nomeCategoria = Console.ReadLine();
+
     try
     {
-        Chamado chamado = new Chamado(titulo, descricao);
+        Categoria categoria = new Categoria(nomeCategoria);
+
+        Chamado chamado = new Chamado(titulo, descricao, categoria);
+
         chamados.Add(chamado);
+
         Console.WriteLine("Chamado criado com sucesso!");
     }
-
     catch (ArgumentException ex)
     {
-      Console.WriteLine("Falha na criação do chamado:" + ex.Message);
+        Console.WriteLine("Falha na criação do chamado: " + ex.Message);
     }
 }
 
@@ -131,6 +139,7 @@ void ConsultarChamado()
             Console.WriteLine($"Titulo:\n{chamado.Titulo}");
             Console.WriteLine($"Descrição:\n{chamado.Descricao}");
             Console.WriteLine($"Status:\n{chamado.Condicao}\n");
+            Console.WriteLine($"Categoria:\n{chamado.Categoria.Nome}");
             Console.WriteLine("Histórico:\n");
             foreach (Historico registro in chamado.Historico)
             {
