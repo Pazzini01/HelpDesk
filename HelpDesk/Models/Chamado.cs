@@ -9,13 +9,14 @@ namespace HelpDesk.Models
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public string Condicao { get; private set; } = "Aberto";
+        public Categoria Categoria { get; private set; }
         public List<Historico> Historico { get; private set; } = new List<Historico>();
 
-        public Chamado(string titulo, string descricao)
+        public Chamado(string titulo, string descricao, Categoria categoria)
         {
             if (string.IsNullOrWhiteSpace(titulo))
             {
-              throw new ArgumentException("O título não deve ficar em branco");
+                throw new ArgumentException("O título não deve ficar em branco");
             }
 
             if (string.IsNullOrWhiteSpace(descricao))
@@ -23,6 +24,7 @@ namespace HelpDesk.Models
                 throw new ArgumentException("A descrição não deve ficar em branco");
             }
 
+            Categoria = categoria;
             Titulo = titulo;
             Descricao = descricao;
 
