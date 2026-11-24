@@ -89,31 +89,107 @@ void AbrirChamado()
         Console.WriteLine("Falha na criação do chamado: " + ex.Message);
     }
 }
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 
 void ListarChamado()
 {
-
     if (chamados.Count == 0)
     {
-        Console.WriteLine("Não existem chamados abertos.");
+        Console.WriteLine("Não existem chamados cadastrados.");
+        return;
     }
 
-    else
+    // Lista dos chamados
+    List<Chamado> chamadosFiltrados = new List<Chamado>();
+
+    Console.WriteLine("1. Exibir lista completa");
+    Console.WriteLine("2. Filtrar por status");
+
+    string condicaoOuLista = Console.ReadLine();
+
+    switch (condicaoOuLista)
     {
-        Console.WriteLine("Lista de chamados:\n");
+        case "1":
+            chamadosFiltrados = chamados.ToList();
+            break;
 
-        int contador = 1;
+        case "2":
+            bool opcaoInvalida = true;
+            int status = 0;
+            string condicaoEscolha = "";
 
-        foreach (Chamado chamado in chamados)
-        {
-            Console.WriteLine($"Chamado {contador}");
-            Console.WriteLine($"Título: {chamado.Titulo}");
-            Console.WriteLine($"Descrição: {chamado.Descricao}\n");
+            while (opcaoInvalida)
+            {
+                Console.WriteLine("Digite a opção desejada:\n");
+                Console.WriteLine("1. Aberto");
+                Console.WriteLine("2. Concluído");
+                Console.WriteLine("3. Em andamento");
 
-            contador++;
-        }
+                string escolha = Console.ReadLine();
+
+                if (int.TryParse(escolha, out status))
+                {
+                    switch (status)
+                    {
+                        case 1:
+                            condicaoEscolha = "Aberto";
+                            opcaoInvalida = false;
+                            break;
+
+                        case 2:
+                            condicaoEscolha = "Concluído";
+                            opcaoInvalida = false;
+                            break;
+
+                        case 3:
+                            condicaoEscolha = "Em andamento";
+                            opcaoInvalida = false;
+                            break;
+
+                        default:
+                            Console.WriteLine("Escolha uma opção válida");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Digite um número válido!\n");
+                }
+            }
+
+            chamadosFiltrados = chamados
+                .Where(chamado => chamado.Condicao == condicaoEscolha)
+                .ToList();
+
+            break;
+    }
+
+    if (chamadosFiltrados.Count == 0)
+    {
+        Console.WriteLine("Nenhum chamado encontrado.");
+        return;
+    }
+
+    Console.WriteLine("Lista de chamados:\n");
+
+    int contador = 1;
+
+    foreach (Chamado chamado in chamadosFiltrados)
+    {
+        Console.WriteLine($"Chamado {contador}");
+        Console.WriteLine($"Título: {chamado.Titulo}");
+        Console.WriteLine($"Descrição: {chamado.Descricao}\n");
+
+        contador++;
     }
 }
+
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 
 void ExibirDadosChamado(int protocolo, string chamado)
 {
